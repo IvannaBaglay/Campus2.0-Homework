@@ -21,5 +21,8 @@ public:
 private:
     SOCKET m_Socket = INVALID_SOCKET;
     unsigned int m_Port = 0;
+
+    char m_RecvBuf[1024];
+    int m_BufLen = 1024;
 };
 
