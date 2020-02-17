@@ -4,8 +4,8 @@
 
 namespace CONSTS
 {
-    unsigned short const DEFAULT_PORT = 12121;
-    unsigned short const USERS_MAX_NUMBER = 10;
+    unsigned short const DEFAULT_PORT = 30000;
+    unsigned short const USERS_MAX_NUMBER = 20;
 }
 
 Socket::~Socket()
@@ -42,15 +42,6 @@ bool Socket::Create()
         std::cout << "Error in setting Broadcast option" << std::endl;
         return false;
     }
-
-    //  Put a socket in non-blocking mode
-    DWORD nonBlocking = 1;
-    if (ioctlsocket(m_Socket, FIONBIO, &nonBlocking) != 0)
-    {
-        std::cout << "Failed to set non-blocking" << std::endl;
-        return false;
-    }
-
     return true;
 }
 
@@ -74,6 +65,7 @@ bool Socket::Bind()
         isSuccess = true;
         break;
     }
+    std::cout << "Max number of users " << CONSTS::USERS_MAX_NUMBER << std::endl;
     return isSuccess;
 }
 
@@ -110,9 +102,10 @@ void Socket::Receive()
     {
         return;
     }
+
     char IP_Address[INET_ADDRSTRLEN];
     inet_ntop(AF_INET, &(SenderAddr.sin_addr), IP_Address, INET_ADDRSTRLEN);
-    std::cout << "Max number of users " << CONSTS::USERS_MAX_NUMBER << std::endl;
+
     if (iResult > 0)
     {
         std::cout << "\n" << IP_Address << ":" << SenderAddr.sin_port << ": " << RecvBuf << std::endl;
