@@ -46,7 +46,7 @@ int main()
     bool isFinish = false;
 
 
-    std::thread sendThread(ThreadSendFunction, socket, isFinish);
+    std::thread sendThread(ThreadSendFunction, std::ref(socket), std::ref(isFinish));
 
     while (!isFinish)
     {
