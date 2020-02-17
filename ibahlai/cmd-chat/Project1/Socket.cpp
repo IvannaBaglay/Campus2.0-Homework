@@ -92,12 +92,10 @@ void Socket::Send(const std::string& message)
 
 void Socket::Receive()
 {
-    char RecvBuf[1024];
-    int BufLen = 1024;
     sockaddr_in SenderAddr;
     int SenderAddrSize = sizeof(SenderAddr);
 
-    int iResult = recvfrom(m_Socket, RecvBuf, BufLen, 0, (SOCKADDR*)& SenderAddr, &SenderAddrSize);
+    int iResult = recvfrom(m_Socket, m_RecvBuf, m_BufLen, 0, (SOCKADDR*)& SenderAddr, &SenderAddrSize);
     if (iResult == SOCKET_ERROR)
     {
         return;
@@ -108,7 +106,7 @@ void Socket::Receive()
 
     if (iResult > 0)
     {
-        std::cout << "\n" << IP_Address << ":" << SenderAddr.sin_port << ": " << RecvBuf << std::endl;
+        std::cout << "\n" << IP_Address << ":" << SenderAddr.sin_port << ": " << m_RecvBuf << std::endl;
         std::cout << "You: ";
     }
     else if (iResult == 0)
